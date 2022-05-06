@@ -1,6 +1,5 @@
-
     var image = document.getElementById("scream");
-    var floor_height = 500
+    var floor_height = 620
     var posY = 500;
 
     class GenericObject {
@@ -73,7 +72,7 @@
             }),
             new Platfrom({
                 x: (image.width) + 150,
-                y: floor_height - 100,
+                y: floor_height - 200,
                 image: image,
                 block:true,
                 text: 'floor'
@@ -103,9 +102,17 @@
                 text: 'floor'
 
             }),
-            
             new Platfrom({
-                x: 850,
+                x: 850, 
+                y: 270 ,
+                width: blockTri.width,
+                height: blockTri.height,
+                image: blockTri,
+                block: true,
+                text: 'object'
+            }),
+            new Platfrom({
+                x: 350, 
                 y: 270 ,
                 width: blockTri.width,
                 height: blockTri.height,
@@ -132,6 +139,54 @@
 
             }),
         ]
-        
-        
+    }
+
+    function load_enemy(){
+        return (goombas = [
+            new Goomba({
+                position: {
+                    x: 400,
+                    y: 400,
+                }, 
+                velocity: {
+                    x: -0.5,
+                    y: 0,
+                }, 
+                distance: {
+                    limit: 200,
+                    traveled:0,
+                },
+                text:'Enemy 1'
+            }),
+            new Goomba({
+                position: {
+                    x: 1000,
+                    y: 200,
+                }, 
+                velocity: {
+                    x: -2,
+                    y: 0,
+                },
+                distance: {
+                    limit: 350,
+                    traveled:0,
+                },
+                text:'Enemy 2'
+            }),
+            new Goomba({
+                position: {
+                    x: 1950,
+                    y: 200,
+                }, 
+                velocity: {
+                    x: -0.7,
+                    y: 0,
+                },
+                distance: {
+                    limit: 450,
+                    traveled:0,
+                },
+                text:'Enemy 3'
+            })
+        ])
     }

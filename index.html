@@ -2,8 +2,8 @@
 <head>
  
 </head>
-<body onload="menu()" style="margin: 0; background-color: black; display: flex; align-items: center; justify-content: center; height: 100vh;">
-    <canvas  type="text/javascript" id="canvas" width="800" height="500">
+<body onload="menu()" id="menu" style="margin: 0; background-color: black; display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <canvas  type="text/javascript" id="canvas" width="800" height="700">
     </canvas>
     <img id="scream" width="550" height="80" src="./img/skyplat.png" style="display: none;">
     <img id="neo" width="80" height="130" src="./img/neo.png" style="display: none;">
@@ -11,6 +11,7 @@
 
     <img id="enemy" width="500" height="500" src="./img/enemy1.png" style="display: none;">
     <img id="enemy-flip" width="500" height="500" src="./img/enemy1-flip.png" style="display: none;">
+    <img id="pill" width="80" height="80" src="./img/pill.png" style="display: none;">
 
     <img id="block" width="500" height="500" src="./img/block.png" style="display: none;">
     <img id="blockTri" width=auto height=auto src="./img/blockTri.png" style="display: none;">
@@ -22,13 +23,14 @@
     </div>
 
 </body>
+<script src="./js/utils.js"></script>
 <script src="./js/dead.js"></script>
 <script src="./js/menu.js" ></script>
 <script src="./js/game.js" ></script>
 <script src="./js/audio.js"></script>
 <script src="./js/enemy.js"></script>
-<script src="./js/utils.js"></script>
-
+<script src="./js/score.js"></script>
+<script src="./js/FireFlower.js"></script>
 <script src="./level/level_1.js"></script>
 
 

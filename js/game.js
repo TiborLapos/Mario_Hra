@@ -5,14 +5,14 @@ let isdead = false
 
 /* Inspiroval som cez youtube video :https://www.youtube.com/watch?v=4q2vvZn5aoo&t=4528s&ab_channel=ChrisCourses ale ked som uz pochopil ako vseetok funguje zacial som pridavat moje vlastne veci */
 
-
+let score = 0
+let dead_count = 0
 
 function Game(){
-
     if(gameloop == true){
         console.log("game")
         canvas.width =  screen.width
-        canvas.height = 576
+        canvas.height = 700
     
     /*
     Fotky  
@@ -38,7 +38,7 @@ function Game(){
         constructor(){
             this.position = {
                 x: 100,
-                y: 300
+                y: 400
             }
             this.velocity = {
                 x: 0,
@@ -48,9 +48,13 @@ function Game(){
             this.width = neo.width,
             this.height = neo.height,
             this.image = neo
-            this.left = true
+            this.powerUps={
+                fireFlowers:false
+            }
+            this.opacity = 1
         }
         draw(){
+           
             //Hit Box
             c.fillStyle = 'rgba(255,0,0,.2)'
             c.fillRect(this.position.x, this.position.y, this.width,this.height)
@@ -68,62 +72,31 @@ function Game(){
 
 
     // Default Init
-
     
 
     let player = new Player()
+  
     let platforms  = loadmap_1()
     let goombas = []
-    // Create Goomba
-    goombas = [
-        new Goomba({
-            position: {
-                x: 400,
-                y: 400,
-            }, 
-            velocity: {
-                x: -0.5,
-                y: 0,
-            }, 
-            distance: {
-                limit: 200,
-                traveled:0,
-            },
-            text:'Enemy 1'
-        }),
-        new Goomba({
-            position: {
-                x: 1000,
-                y: 200,
-            }, 
-            velocity: {
-                x: -2,
-                y: 0,
-            },
-            distance: {
-                limit: 350,
-                traveled:0,
-            },
-            text:'Enemy 2'
-        }),
-        new Goomba({
-            position: {
-                x: 1950,
-                y: 200,
-            }, 
-            velocity: {
-                x: -0.7,
-                y: 0,
-            },
-            distance: {
-                limit: 450,
-                traveled:0,
-            },
-            text:'Enemy 3'
-        })
-    ]
+    // Create Enemy
+    goombas = load_enemy()
+
+
     // EFFEKT
     let particles = []
+
+    //Upgrade
+    let fireFlowers = [
+    new Fireflower({
+        position:{
+        x: 400,
+        y: 100
+        },
+        velocity:{
+            x:0,
+            y:0
+        }
+    })]
 
 
     const keys = {
@@ -135,50 +108,85 @@ function Game(){
         },
         jump: {
             jumped: false
+        },
+        space: {
+            pressed: false
         }
 
     }
     player.update()
     let scrollOffset = 0
 
-
-    //Restart Init 
-    function init(){
-        //player = new Player()
-        //player.update()
-        //platforms = loadmap_1()
-        //scrollOffset = 0
-        c.clearRect(0, 0, c.canvas.width, c.canvas.height)
-    }
-  
-
     function Animate(){
         if(gameloop == true){
             requestAnimationFrame(Animate)
             c. fillStyle = 'white'
             c.fillRect(0, 0, canvas.width,canvas.height)
-           
+            //Objects Animate
             genericObject.forEach(genericObject => {
                 genericObject.update()
                 genericObject.velocity.x = 0
             })
-           
+
+            //Platform Animate
             platforms.forEach(platform => {
                 platform.update()
                 platform.velocity.x = 0
             })
 
-           
+
+
+            //Upgrade Animate
+            fireFlowers.forEach((fireFlower,index) =>{
+                if(objectTouch({
+                    object1: player,
+                    object2: fireFlower
+                })
+                ){
+                    //console.log("Touch")
+                    player.powerUps.fireFlowers = true
+                    setTimeout(()=> {
+                        fireFlowers.splice(index, 1)
+                    },0)
+                }
+                    fireFlower.update()
+            })
             player.update()
-           
+
+
+            //Enemy Animate
             goombas.forEach((goomba, index) => {
                 goomba.update()
-                // goomba dead
+                //Remove Enemy On Hit
+                particles.filter(particle => particle.fireball).forEach((particle, particleIndex) => {
+                    if(particle.position.x + particle.radius >= goomba.position.x && particle.position.y + particle.radius >= goomba.position.y && particle.position.x - particle.radius <= goomba.position.x + goomba.width && particle.position.y - particle.radius <= goomba.position.y + goomba.height){
+                        // Create Effekt
+                        for(let i = 0; i < 50; i++){
+                            particles.push(new Particle({
+                                position:{
+                                    x: goomba.position.x + goomba.width / 2,
+                                    y: goomba.position.y + goomba.height / 2,
+                                },
+                                velocity: {
+                                    x: (Math.random() - 0.5) * 10, 
+                                    y: (Math.random() - 0.5) * 10, 
+                                }, 
+                                //Velkost
+                                radius: Math.random() * 3
+                            }))
+                        } 
+                        setTimeout(()=>{
+                            goombas.splice(index, 1)
+                            particles.splice(particleIndex, 1)
+                        }, 0)
+                    }
+                })
+                // Enemy dead
                 if(collisionTop({
                     objec1: player,
                     objec2: goomba
                 })){
-                    // Create Particle
+                    // Create Effekt
                     for(let i = 0; i < 50; i++){
                         particles.push(new Particle({
                             position:{
@@ -194,21 +202,49 @@ function Game(){
                         }))
                     } 
                     console.log("goomba death")
+                    score += 10
                     player.velocity.y -= 25
                     setTimeout(()=>{
                         goombas.splice(index, 1)
                     }, 0)
                 }else if(player.position.x + player.width >= goomba.position.x && player.position.y + player.height >= goomba.position.y && player.position.x <= goomba.position.x + goomba.width ){
-                    goombas.length = 0
-                    dead()
+                    
+                    if(player.powerUps.fireFlowers !=  true){
+                        goombas.length = 0
+                        dead()
+                    }else{
+                        for(let i = 0; i < 50; i++){
+                            particles.push(new Particle({
+                                position:{
+                                    x: goomba.position.x + goomba.width / 2,
+                                    y: goomba.position.y + goomba.height / 2,
+                                },
+                                velocity: {
+                                    x: (Math.random() - 0.5) * 10, 
+                                    y: (Math.random() - 0.5) * 10, 
+                                }, 
+                                //Velkost
+                                radius: Math.random() * 3
+                            }))
+                        } 
+                        setTimeout(()=>{
+                            goombas.splice(index, 1)
+                        }, 0)
+                        player.powerUps.fireFlowers = false
+                    }
                }
             })
 
-           
-            particles.forEach(Particle => {
-                Particle.update()
+            //Particles Animate
+            particles.forEach((particle,particleIndex)  => {
+                particle.update()
+                if (particle.fireball && (particle.position.x - particle.radius >= canvas.width || particle.position.x + particle.radius <= 0)){
+                    setTimeout(() => {
+                        particles.splice(particleIndex, 1) 
+                    },0)
+                }
             })
-         
+            console.log(particles)
 
             let hitSide = false
             //Ovladaanie Left Right
@@ -223,7 +259,7 @@ function Game(){
                     for(let i = 0; i < platforms.length; i++){
                         const platform  = platforms[i]
                         platform.velocity.x = -player.speed
-
+                        //Scroll Platform
                         if (platform.block && hitSideOfPlatform({
                             object:player, 
                             platform:platform
@@ -237,15 +273,19 @@ function Game(){
                     }
                     if (!hitSide){
                         scrollOffset += player.speed
-
+                        //Scroll Objects
                         genericObject.forEach((genericObject) => {
                             genericObject.velocity.x = -player.speed * 0.66
                         })
-    
+                        //Scroll Enemy
                         goombas.forEach(goomba => {
                             goomba.position.x -= player.speed
                         })
-    
+                        //Scroll Upgrade
+                        fireFlowers.forEach(fireFlower => {
+                            fireFlower.position.x -= player.speed
+                        })
+                        //Scroll Effekt
                         particles.forEach(Particle => {
                             Particle.position.x -= player.speed
                         })
@@ -268,13 +308,19 @@ function Game(){
 
                     if(!hitSide){
                         scrollOffset -= player.speed
-
+                        //Scroll Object
                         genericObject.forEach((genericObject) => {
                             genericObject.velocity.x = player.speed * 0.66
                         })
+                        //Scroll Enemy
                         goombas.forEach(goomba => {
                             goomba.position.x += player.speed
                         })
+                        //Scroll Upgrade
+                        fireFlowers.forEach(fireFlower => {
+                            fireFlower.position.x += player.speed
+                        })
+                        //Scroll Efekts
                         particles.forEach(Particle => {
                             Particle.position.x += player.speed
                         })
@@ -307,7 +353,7 @@ function Game(){
                     player.velocity.x = 0
                 }
 
-                // Particle skok
+                // Particles bounce
                 particles.forEach((Particle, index) => {
                     if(
                         isOnTopOfPlatformCircle({
@@ -315,7 +361,8 @@ function Game(){
                             platform: platform
                         })
                     ){
-                        Particle.velocity.y = -Particle.velocity.y * 0.8
+                        const bounce = 0.9
+                        Particle.velocity.y = -Particle.velocity.y * .99
 
                         if(Particle.radius - 0.4 < 0  ){
                             particles.splice(index, 1)
@@ -328,8 +375,8 @@ function Game(){
                     }
                 })
                 
-
-                goombas.forEach(goomba => {
+                //Enemy kolizia
+                goombas.forEach(goomba => { 
                     if(
                         isOnTopOfPlatform({
                             object: goomba,
@@ -337,6 +384,17 @@ function Game(){
                         })
                     ){
                         goomba.velocity.y = 0
+                    }
+                })
+                 //Upgread kolizia
+                 fireFlowers.forEach(fireFlowers => { 
+                    if(
+                        isOnTopOfPlatform({
+                            object: fireFlowers,
+                            platform: platform
+                        })
+                    ){
+                        fireFlowers.velocity.y = 0
                     }
                 })
             })
@@ -379,8 +437,33 @@ function Game(){
             case 83:
                 console.log("down")
                 break
+            case 32:
+                console.log("space") 
+                if(keys.space.pressed == false){
+                    if(!player.powerUps.fireFlowers) return
+                    let velocity = 20
+                    if(player.image === neo_flip){
+                        velocity = -20
+                    } 
+                    particles.push(new Particle({
+                        position: {
+                            x: (player.position.x + player.width / 2) + 30,
+                            y: player.position.y + 30
+                        },
+                        velocity: {
+                            x: velocity,
+                            y:0
+                        },
+                        radius:5,
+                        color: 'black',
+                        fireball: true
+                    }))
+                }
+                keys.space.pressed = true                
+                break
         }
     })
+
     addEventListener('keyup', ({ keyCode }) => {
         switch (keyCode){
             case 65:
@@ -396,6 +479,9 @@ function Game(){
                 break
             case 83:
                 console.log("down")
+                break
+            case 32:
+                    keys.space.pressed = false                
                 break
         }
     })
