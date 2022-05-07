@@ -24,6 +24,8 @@ function Game(){
     var background1 = document.getElementById("background1");
     var block = document.getElementById("block");
     var blockTri = document.getElementById("blockTri");
+    var platf1 = document.getElementById("platf1");
+
     const gravity = 0.5
 
     const genericObject = [
@@ -223,6 +225,7 @@ function Game(){
                                     x: (Math.random() - 0.5) * 10, 
                                     y: (Math.random() - 0.5) * 10, 
                                 }, 
+                                color: "yellow",
                                 //Velkost
                                 radius: Math.random() * 3
                             }))

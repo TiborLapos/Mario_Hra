@@ -14,7 +14,7 @@
             }
 
             this.image = image,
-            this.width = image.width,
+            this.width = 7000,
             this.height = image.height
         }
         draw(){
@@ -68,40 +68,25 @@
                 y: floor_height,
                 image: image,
                 block:true,
-                text: 'floor'
+                text: 'floor 1'
             }),
             new Platfrom({
-                x: (image.width) + 150,
+                x: 700,
                 y: floor_height - 200,
                 image: image,
                 block:true,
-                text: 'floor'
+                text: 'floor 2'
 
             }),
             new Platfrom({
-                x: (image.width) + 950,
+                x: 1500,
                 y: floor_height,
                 image: image,
                 block:true,
-                text: 'floor'
+                text: 'floor 3'
 
             }),
-            new Platfrom({
-                x: (image.width) + 950,
-                y: floor_height,
-                image: image,
-                block:true,
-                text: 'floor'
-
-            }),
-            new Platfrom({
-                x: (image.width) + 1750,
-                y: floor_height,
-                image: image,
-                block:true,
-                text: 'floor'
-
-            }),
+          
             new Platfrom({
                 x: 850, 
                 y: 270 ,
@@ -109,7 +94,7 @@
                 height: blockTri.height,
                 image: blockTri,
                 block: true,
-                text: 'object'
+                text: 'platform 1'
             }),
             new Platfrom({
                 x: 350, 
@@ -118,26 +103,140 @@
                 height: blockTri.height,
                 image: blockTri,
                 block: true,
-                text: 'object'
+                text: 'platform 2'
             }),
-             
+            /*
             new Platfrom({
                 x: 1390,
-                y: 100 ,
+                y: 80,
                 width: 50,
-                height: blockTri.height + 150,
-                image: blockTri,
+                height: platf1.height,
+                image: platf1,
                 block: true,
-                text: 'object'
+                text: 'platform 3'
             }),
+            */
             new Platfrom({
-                x: (image.width) + 2450,
+                x: 2350,
                 y: floor_height,
                 image: image,
                 block:true,
-                text: 'floor'
-
+                text: 'floor 4'
             }),
+            new Platfrom({
+                x: 2900, 
+                y: 500 ,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 4'
+            }),
+            new Platfrom({
+                x: 3200,
+                y: 450,
+                width: 50,
+                height: platf1.height,
+                image: platf1,
+                block: true,
+                text: 'platform 5'
+            }),
+            new Platfrom({
+                x: 3200,
+                y: 0,
+                width: 50,
+                height: platf1.height,
+                image: platf1,
+                block: true,
+                text: 'platform 6'
+            }),
+            new Platfrom({
+                x: 3500, 
+                y: 450 ,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 7'
+            }),
+            new Platfrom({
+                x: 3650, 
+                y: 450 ,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 8'
+            }),
+            new Platfrom({
+                x: 3850, 
+                y: 350 ,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 9'
+            }),
+            new Platfrom({
+                x: 4150, 
+                y: 350 ,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 10'
+            }),
+            new Platfrom({
+                x: 4500, 
+                y: 550 ,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 11'
+            }),
+            new Platfrom({
+                x: 4600,
+                y: floor_height,
+                image: image,
+                block:true,
+                text: 'floor 5'
+            }),
+            new Platfrom({
+                x: 5150,
+                y: floor_height,
+                image: image,
+                block:true,
+                text: 'floor 6'
+            }),
+            new Platfrom({
+                x: 4850, 
+                y: 350 ,
+                width: blockTri.width,
+                height: blockTri.height,
+                image: blockTri,
+                block: true,
+                text: 'platform 12'
+            }),
+            new Platfrom({
+                x: 4650,
+                y: 210,
+                width: 50,
+                height: platf1.height,
+                image: platf1,
+                block: true,
+                text: 'platform 13'
+            }),
+            new Platfrom({
+                x: 5050, 
+                y: 350 ,
+                width: blockTri.width,
+                height: blockTri.height,
+                image: blockTri,
+                block: true,
+                text: 'platform 12'
+            }),
+          
         ]
     }
 
@@ -187,6 +286,51 @@
                     traveled:0,
                 },
                 text:'Enemy 3'
-            })
+            }),
+            new Goomba({
+                position: {
+                    x: 4900,
+                    y: 200,
+                }, 
+                velocity: {
+                    x: -1,
+                    y: 0,
+                },
+                distance: {
+                    limit: 300,
+                    traveled:0,
+                },
+                text:'Enemy 4'
+            }),
+            new Goomba({
+                position: {
+                    x: 5200,
+                    y: 360,
+                }, 
+                velocity: {
+                    x: -2,
+                    y: 0,
+                },
+                distance: {
+                    limit: 400,
+                    traveled:0,
+                },
+                text:'Enemy 4'
+            }),
+            new Goomba({
+                position: {
+                    x: 5500,
+                    y: 200,
+                }, 
+                velocity: {
+                    x: -0.7,
+                    y: 0,
+                },
+                distance: {
+                    limit: 550,
+                    traveled:0,
+                },
+                text:'Enemy 4'
+            }),
         ])
     }
