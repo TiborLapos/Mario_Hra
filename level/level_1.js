@@ -50,6 +50,7 @@
             //c.fillStyle = 'blue'
             //c.fillRect(this.position.x, this.position.y, this.width, this.height)
             c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+            c.font = '8pt Arial';
             if(this.text){
                 c.fillStyle = 'red'
                 c.fillText(this.text, this.position.x,this.position.y)
@@ -234,7 +235,144 @@
                 height: blockTri.height,
                 image: blockTri,
                 block: true,
-                text: 'platform 12'
+                text: 'platform 14'
+            }),
+            new Platfrom({
+                x: 5700, 
+                y: 550,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 15'
+            }),
+            new Platfrom({
+                x: 5800, 
+                y: 450,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 16'
+            }),
+            new Platfrom({
+                x: 5900, 
+                y: 350,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 17'
+            }),
+            new Platfrom({
+                x: 6000, 
+                y: 250,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 18'
+            }),
+            new Platfrom({
+                x: 6050, 
+                y: 250,
+                width: blockTri.width,
+                height: blockTri.height,
+                image: blockTri,
+                block: true,
+                text: 'platform 19'
+            }),
+            new Platfrom({
+                x: 6200, 
+                y: 250,
+                width: blockTri.width,
+                height: blockTri.height,
+                image: blockTri,
+                block: true,
+                text: 'platform 20'
+            }),
+            new Platfrom({
+                x: 6480, 
+                y: 135,
+                width: platf1.width,
+                height: platf1.height,
+                image: platf1,
+                block: true,
+                text: 'platform 21'
+            }),
+            new Platfrom({
+                x: 6480, 
+                y: 400,
+                width: platf1.width,
+                height: platf1.height,
+                image: platf1,
+                block: true,
+                text: 'platform 22'
+            }),
+            new Platfrom({
+                x: 6480, 
+                y: 680,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 23'
+            }),
+            new Platfrom({
+                x: 6980, 
+                y: 135,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 24'
+            }),
+            new Platfrom({
+                x: 7050, 
+                y: 200,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 25'
+            }),
+            new Platfrom({
+                x: 7000,
+                y: floor_height,
+                image: image,
+                block:true,
+                text: 'floor 7'
+            }),
+            
+            new Platfrom({
+                x: 7180, 
+                y: 420,
+                width: block.width,
+                height: block.height,
+                image: block,
+                block: true,
+                text: 'platform 26'
+            }),
+            new Platfrom({
+                x: 7550,
+                y: floor_height,
+                image: image,
+                block:true,
+                text: 'floor 7'
+            }),
+            new Platfrom({
+                x: 8100,
+                y: floor_height,
+                image: image,
+                block:true,
+                text: 'floor 7'
+            }),
+            new Platfrom({
+                x: 8650,
+                y: floor_height,
+                image: image,
+                block:true,
+                text: 'floor 7'
             }),
           
         ]
@@ -242,6 +380,7 @@
 
     function load_enemy(){
         return (goombas = [
+            /*
             new Goomba({
                 position: {
                     x: 400,
@@ -331,6 +470,41 @@
                     traveled:0,
                 },
                 text:'Enemy 4'
+            }),
+            */
+            new Goomba({
+                position: {
+                    x: 6205,
+                    y: 110,
+                }, 
+                velocity: {
+                    x: -1.2,
+                    y: 0,
+                },
+                distance: {
+                    limit: 200,
+                    traveled:0,
+                },
+                text:'Enemy 5'
+            }),
+            new Goomba({
+                position: {
+                    x: 8650,
+                    y: 300,
+                }, 
+                image:boss,
+                width:300,
+                height:300,
+                boss:true,
+                velocity: {
+                    x: -1.2,
+                    y: 0,
+                },
+                distance: {
+                    limit: 1300,
+                    traveled:0,
+                },
+                text:'Enemy BOSS'
             }),
         ])
     }

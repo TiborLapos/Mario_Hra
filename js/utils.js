@@ -42,6 +42,7 @@ function hitBotomOfPLatform({object, platform}){
         object.position.x <= platform.position.x + platform.width /*- 50*/)
 }
 
+
 function hitSideOfPlatform({object, platform}){
     return (
         object.position.x + object.width + object.velocity.x - platform.velocity.x >= platform.position.x
@@ -52,6 +53,20 @@ function hitSideOfPlatform({object, platform}){
         &&
         object.position.y + object.height >= platform.position.y )
 }
+
+function hitSideOfPlatformCirlcle({object, platform}){
+    return (
+        object.position.x + object.radius + object.velocity.x - platform.velocity.x >= platform.position.x
+        &&
+        object.position.x + object.velocity.x <= platform.position.x + platform.width
+        &&
+        object.position.y <= platform.position.y + platform.height
+        &&
+        object.position.y + object.radius >= platform.position.y 
+        )
+}
+
+
 
 function objectTouch({object1, object2}){
     return(

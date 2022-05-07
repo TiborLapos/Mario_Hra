@@ -20,7 +20,6 @@ function Game(){
 
     var neo = document.getElementById("neo");
     var neo_flip = document.getElementById("neo-flip");
-
     var background1 = document.getElementById("background1");
     var block = document.getElementById("block");
     var blockTri = document.getElementById("blockTri");
@@ -39,7 +38,7 @@ function Game(){
     class Player{
         constructor(){
             this.position = {
-                x: 100,
+                x: 1700,
                 y: 400
             }
             this.velocity = {
@@ -69,6 +68,7 @@ function Game(){
             if(this.position.y + this.height + this.velocity.y <= canvas.height){
                 this.velocity.y += gravity
             }
+
         }
     }
 
@@ -91,8 +91,8 @@ function Game(){
     let fireFlowers = [
     new Fireflower({
         position:{
-        x: 400,
-        y: 100
+        x: 6980,
+        y: 0
         },
         velocity:{
             x:0,
@@ -121,8 +121,9 @@ function Game(){
 
     function Animate(){
         if(gameloop == true){
+       
             requestAnimationFrame(Animate)
-            c. fillStyle = 'white'
+            c. fillStyle = 'black'
             c.fillRect(0, 0, canvas.width,canvas.height)
             //Objects Animate
             genericObject.forEach(genericObject => {
@@ -163,25 +164,51 @@ function Game(){
                 particles.filter(particle => particle.fireball).forEach((particle, particleIndex) => {
                     if(particle.position.x + particle.radius >= goomba.position.x && particle.position.y + particle.radius >= goomba.position.y && particle.position.x - particle.radius <= goomba.position.x + goomba.width && particle.position.y - particle.radius <= goomba.position.y + goomba.height){
                         // Create Effekt
-                        for(let i = 0; i < 50; i++){
-                            particles.push(new Particle({
-                                position:{
-                                    x: goomba.position.x + goomba.width / 2,
-                                    y: goomba.position.y + goomba.height / 2,
-                                },
-                                velocity: {
-                                    x: (Math.random() - 0.5) * 10, 
-                                    y: (Math.random() - 0.5) * 10, 
-                                }, 
-                                //Velkost
-                                radius: Math.random() * 3
-                            }))
-                        } 
-                        setTimeout(()=>{
+                        if(goomba.health <= 0){
+                            console.log("Boss dead")
+                            for(let i = 0; i < 150; i++){
+                                particles.push(new Particle({
+                                    position:{
+                                        x: goomba.position.x + goomba.width / 2,
+                                        y: goomba.position.y + goomba.height / 2,
+                                    },
+                                    velocity: {
+                                        x: (Math.random() - 0.5) * 20, 
+                                        y: (Math.random() - 0.5) * 20, 
+                                    }, 
+                                    //Velkost
+                                    radius: Math.random() * 9
+                                }))
+                            } 
                             goombas.splice(index, 1)
+                        }
+                        
+                        if(boss){
+                            goomba.health -= 10
                             particles.splice(particleIndex, 1)
-                        }, 0)
+                        }else{
+                            for(let i = 0; i < 50; i++){
+                                particles.push(new Particle({
+                                    position:{
+                                        x: goomba.position.x + goomba.width / 2,
+                                        y: goomba.position.y + goomba.height / 2,
+                                    },
+                                    velocity: {
+                                        x: (Math.random() - 0.5) * 10, 
+                                        y: (Math.random() - 0.5) * 10, 
+                                    }, 
+                                    //Velkost
+                                    radius: Math.random() * 3
+                                }))
+                            } 
+                            setTimeout(()=>{
+                                goombas.splice(index, 1)
+                                particles.splice(particleIndex, 1)
+                            }, 0)
+                        }
+                        
                     }
+                    console.log("Boss health: "+goomba.health)
                 })
                 // Enemy dead
                 if(collisionTop({
@@ -247,7 +274,7 @@ function Game(){
                     },0)
                 }
             })
-            console.log(particles)
+            //console.log(particles)
 
             let hitSide = false
             //Ovladaanie Left Right
@@ -358,6 +385,18 @@ function Game(){
 
                 // Particles bounce
                 particles.forEach((Particle, index) => {
+                    if(hitSideOfPlatformCirlcle({
+                        object:Particle,
+                        platform:platform
+                    })){
+                        //console.log("Hehe")
+                        Particle.velocity.y = -Particle.velocity.y * .99
+                        if(Particle.radius - 0.4 < 0  ){
+                            particles.splice(index, 1)
+                        }else{
+                            Particle.radius -= 0.4
+                        }
+                    }
                     if(
                         isOnTopOfPlatformCircle({
                             object: Particle,
@@ -376,7 +415,11 @@ function Game(){
                     if(Particle.ttl < 0){
                         particles.splice(index, 1)
                     }
+
+                   
                 })
+
+
                 
                 //Enemy kolizia
                 goombas.forEach(goomba => { 
@@ -402,9 +445,10 @@ function Game(){
                 })
             })
 
+        console.log("Position X: "+scrollOffset+"Position Y: "+player.position.y)
 
             // Epizoda Vyhra
-        if(scrollOffset > 2000){
+        if(scrollOffset > 4000){
             console.log("Winner")
         }
             // Epizoda Prehra
@@ -444,9 +488,9 @@ function Game(){
                 console.log("space") 
                 if(keys.space.pressed == false){
                     if(!player.powerUps.fireFlowers) return
-                    let velocity = 20
+                    let velocity = 10
                     if(player.image === neo_flip){
-                        velocity = -20
+                        velocity = -10
                     } 
                     particles.push(new Particle({
                         position: {
