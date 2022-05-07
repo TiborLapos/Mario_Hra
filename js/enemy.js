@@ -42,6 +42,7 @@ class Goomba{
                 this.text = (this.health)
                 c.fillText(this.text, this.position.x + this.width / 2,this.position.y)
             }else{
+                c.font = '8pt Arial';
                 c.fillStyle = 'red'
                 c.fillText(this.text, this.position.x,this.position.y)
             }
@@ -59,7 +60,7 @@ class Goomba{
                 this.image = enemy_flip
             }
         }
-     
+
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
@@ -71,7 +72,10 @@ class Goomba{
         this.distance.traveled += Math.abs(this.velocity.x)
         if(this.distance.traveled > this.distance.limit){
             this.distance.traveled = 0
-            this.velocity.x = -this.velocity.x 
+            this.velocity.x = -this.velocity.x
+
+        }else{
+
         }
      
         //console.log(this.distance.traveled)

@@ -16,8 +16,12 @@
             this.image = image,
             this.width = 7000,
             this.height = image.height
+            this.text = "Test"
         }
         draw(){
+           
+            c.fillStyle = 'blue'
+            c.fillRect(this.position.x, this.position.y, this.width, this.height)
             c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
         }
 
@@ -47,8 +51,8 @@
             this.text = text
         }
         draw(){
-            //c.fillStyle = 'blue'
-            //c.fillRect(this.position.x, this.position.y, this.width, this.height)
+            c.fillStyle = 'white'
+            c.fillRect(this.position.x, this.position.y, this.width, this.height)
             c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
             c.font = '8pt Arial';
             if(this.text){
@@ -212,7 +216,7 @@
             }),
             new Platfrom({
                 x: 4850, 
-                y: 350 ,
+                y: 320 ,
                 width: blockTri.width,
                 height: blockTri.height,
                 image: blockTri,
@@ -230,7 +234,7 @@
             }),
             new Platfrom({
                 x: 5050, 
-                y: 350 ,
+                y: 320 ,
                 width: blockTri.width,
                 height: blockTri.height,
                 image: blockTri,
@@ -380,7 +384,7 @@
 
     function load_enemy(){
         return (goombas = [
-            /*
+            
             new Goomba({
                 position: {
                     x: 400,
@@ -471,7 +475,7 @@
                 },
                 text:'Enemy 4'
             }),
-            */
+        
             new Goomba({
                 position: {
                     x: 6205,
@@ -493,11 +497,11 @@
                     y: 300,
                 }, 
                 image:boss,
-                width:300,
+                width:350,
                 height:300,
                 boss:true,
                 velocity: {
-                    x: -1.2,
+                    x: -3.5,
                     y: 0,
                 },
                 distance: {
@@ -506,5 +510,6 @@
                 },
                 text:'Enemy BOSS'
             }),
+            
         ])
     }

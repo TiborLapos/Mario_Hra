@@ -48,7 +48,8 @@ function Start_button(){
             gameloop = true 
             document.getElementById("canvas").style.border = "none";
             playMusic()
-            Game()
+            //Game()
+            win()
         }
         });
     }
@@ -62,7 +63,7 @@ function Volume_button(){
     button2.rect(x_po, y_poz, 150, 50);
     ctx.fillStyle = 'black';
     ctx.lineWidth = 4;  
-    if (isdead == true){
+    if (isdead === true){
         ctx.strokeStyle = 'red';
     }else{
         ctx.strokeStyle = '#1F51FF';
@@ -120,9 +121,48 @@ function Info_button(){
         ctx.fillText("To move use W A S D", x_po+70, y_poz+100);
     }
     });
-   
 }
+function next_level(){
+    canvas.width =  1024
+    canvas.height = 576
+    if (show == true){
+        var x_po = 420
+        var y_poz = 190
+        const ctx = canvas.getContext('2d');
+        const button1 = new Path2D();
 
+        button1.rect(x_po, y_poz, 150, 50);
+        //ctx.fillStyle = 'red';
+        ctx.lineWidth = 4; 
+        if (isdead == true){
+            ctx.strokeStyle = 'blue';
+        }else{
+            ctx.strokeStyle = '#1F51FF';
+        }       
+        ctx.strokeRect(x_po, y_poz, 150, 50);   
+
+        ctx.fill(button1);
+    
+        ctx.fillStyle = 'white';
+        ctx.font = '20pt Arial';
+        ctx.textAlign = "center";
+        ctx.fillText("./next_level", x_po+75, y_poz+35);
+        ctx.lineWidth = 7; 
+        // Listen for mouse moves
+        canvas.addEventListener('click', function(event) {
+        // Check whether point is inside circle
+        if (ctx.isPointInPath(button1, event.offsetX, event.offsetY) && show !== false) {
+            console.log("Start")
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+            show = false
+            gameloop = true 
+            document.getElementById("canvas").style.border = "none";
+            playMusic()
+            Game()
+        }
+        });
+    }
+}
 
 
 

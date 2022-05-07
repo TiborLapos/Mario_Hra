@@ -8,8 +8,10 @@ let isdead = false
 let score = 0
 let dead_count = 0
 
+
 function Game(){
     if(gameloop == true){
+        var bos_dead = false
         console.log("game")
         canvas.width =  screen.width
         canvas.height = 700
@@ -34,50 +36,8 @@ function Game(){
             image:background1
         })
     ] 
-
-    class Player{
-        constructor(){
-            this.position = {
-                x: 1700,
-                y: 400
-            }
-            this.velocity = {
-                x: 0,
-                y: 0
-            }
-            this.speed = 5
-            this.width = neo.width,
-            this.height = neo.height,
-            this.image = neo
-            this.powerUps={
-                fireFlowers:false
-            }
-            this.opacity = 1
-        }
-        draw(){
-           
-            //Hit Box
-            c.fillStyle = 'rgba(255,0,0,.2)'
-            c.fillRect(this.position.x, this.position.y, this.width,this.height)
-            c.drawImage(this.image,this.position.x, this.position.y, 80, 150);
-        }
-        update(){
-            this.draw()
-            this.position.y +=  this.velocity.y
-            this.position.x +=  this.velocity.x
-            if(this.position.y + this.height + this.velocity.y <= canvas.height){
-                this.velocity.y += gravity
-            }
-
-        }
-    }
-
-
     // Default Init
-    
-
     let player = new Player()
-  
     let platforms  = loadmap_1()
     let goombas = []
     // Create Enemy
@@ -180,6 +140,8 @@ function Game(){
                                     radius: Math.random() * 9
                                 }))
                             } 
+                            goomba.boss = false
+                            bos_dead = true
                             goombas.splice(index, 1)
                         }
                         
@@ -237,26 +199,76 @@ function Game(){
                         goombas.splice(index, 1)
                     }, 0)
                 }else if(player.position.x + player.width >= goomba.position.x && player.position.y + player.height >= goomba.position.y && player.position.x <= goomba.position.x + goomba.width ){
-                    
                     if(player.powerUps.fireFlowers !=  true){
-                        goombas.length = 0
-                        dead()
+                        if(player.heal <= 25){
+                            goombas.length = 0
+                            dead() 
+                        }else{
+                            player.heal -= 25
+                            for(let i = 0; i < 50; i++){
+                                particles.push(new Particle({
+                                    position:{
+                                        x: goomba.position.x + goomba.width / 2,
+                                        y: goomba.position.y + goomba.height / 2,
+                                    },
+                                    velocity: {
+                                        x: (Math.random() - 0.5) * 10, 
+                                        y: (Math.random() - 0.5) * 10, 
+                                    }, 
+                                    //Velkost
+                                    radius: Math.random() * 3
+                                }))
+                            } 
+                            setTimeout(()=>{
+                                goombas.splice(index, 1)
+                            }, 0)
+                            console.log("-25 HEal")
+                        }
                     }else{
-                        for(let i = 0; i < 50; i++){
-                            particles.push(new Particle({
-                                position:{
-                                    x: goomba.position.x + goomba.width / 2,
-                                    y: goomba.position.y + goomba.height / 2,
-                                },
-                                velocity: {
-                                    x: (Math.random() - 0.5) * 10, 
-                                    y: (Math.random() - 0.5) * 10, 
-                                }, 
-                                color: "yellow",
-                                //Velkost
-                                radius: Math.random() * 3
-                            }))
-                        } 
+                        if(!goomba.boss){
+                            for(let i = 0; i < 50; i++){
+                                particles.push(new Particle({
+                                    position:{
+                                        x: goomba.position.x + goomba.width / 2,
+                                        y: goomba.position.y + goomba.height / 2,
+                                    },
+                                    velocity: {
+                                        x: (Math.random() - 0.5) * 10, 
+                                        y: (Math.random() - 0.5) * 10, 
+                                    }, 
+                                    color: "yellow",
+                                    //Velkost
+                                    radius: Math.random() * 3
+                                }))
+                            } 
+                        }else{
+                            if(player.heal <= 25){
+                                goombas.length = 0
+                                dead()
+                            }else{
+                                player.heal -= 25
+                                for(let i = 0; i < 50; i++){
+                                    particles.push(new Particle({
+                                        position:{
+                                            x: goomba.position.x + goomba.width / 2,
+                                            y: goomba.position.y + goomba.height / 2,
+                                        },
+                                        velocity: {
+                                            x: (Math.random() - 0.5) * 10, 
+                                            y: (Math.random() - 0.5) * 10, 
+                                        }, 
+                                        //Velkost
+                                        radius: Math.random() * 3
+                                    }))
+                                } 
+                                setTimeout(()=>{
+                                    goombas.splice(index, 1)
+                                }, 0)
+                                console.log("-25 HEal") 
+                            }
+                         
+                        }
+                    
                         setTimeout(()=>{
                             goombas.splice(index, 1)
                         }, 0)
@@ -445,11 +457,12 @@ function Game(){
                 })
             })
 
-        console.log("Position X: "+scrollOffset+"Position Y: "+player.position.y)
+        //console.log("Position X: "+scrollOffset+"Position Y: "+player.position.y)
 
             // Epizoda Vyhra
-        if(scrollOffset > 4000){
+        if(scrollOffset > 4000 && bos_dead === true){
             console.log("Winner")
+            win()
         }
             // Epizoda Prehra
             if(player.position.y > canvas.height){
