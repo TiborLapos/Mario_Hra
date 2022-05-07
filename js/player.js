@@ -1,7 +1,7 @@
 
-
 var a = Array('\u2665');
-
+var neo = document.getElementById("neo");
+var neo_flip = document.getElementById("neo-flip");
 
 class Player{
     constructor(){

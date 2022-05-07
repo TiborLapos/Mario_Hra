@@ -1,17 +1,19 @@
 var gameloop = false
 const canvas = document.getElementById('canvas');
 const c = canvas.getContext('2d');
-let isdead = false
 
 /* Inspiroval som cez youtube video :https://www.youtube.com/watch?v=4q2vvZn5aoo&t=4528s&ab_channel=ChrisCourses ale ked som uz pochopil ako vseetok funguje zacial som pridavat moje vlastne veci */
-
+let isdead = false
 let score = 0
 let dead_count = 0
+var bos_dead = false
 
+var block = document.getElementById("block");
+var blockTri = document.getElementById("blockTri");
+var platf1 = document.getElementById("platf1");
 
 function Game(){
     if(gameloop == true){
-        var bos_dead = false
         console.log("game")
         canvas.width =  screen.width
         canvas.height = 700
@@ -19,29 +21,29 @@ function Game(){
     /*
     Fotky  
     */
-
-    var neo = document.getElementById("neo");
-    var neo_flip = document.getElementById("neo-flip");
-    var background1 = document.getElementById("background1");
-    var block = document.getElementById("block");
-    var blockTri = document.getElementById("blockTri");
-    var platf1 = document.getElementById("platf1");
+   
 
     const gravity = 0.5
-
-    const genericObject = [
-        new GenericObject({
-            x: image.width,
-            y: image.height,
-            image:background1
-        })
-    ] 
-    // Default Init
+    let genericObject
     let player = new Player()
-    let platforms  = loadmap_1()
+    let platforms
     let goombas = []
+
+
+    // Default Init
+    if (bos_dead === true){
+        platforms  = loadmap_2()
+        goombas = load_enemy2()
+        genericObject =  background2()
+    }
+
+    if(bos_dead === false){
+        platforms  = loadmap_1()
+        goombas = load_enemy()
+        genericObject =  background()
+    }
+
     // Create Enemy
-    goombas = load_enemy()
 
 
     // EFFEKT

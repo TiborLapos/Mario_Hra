@@ -48,8 +48,8 @@ function Start_button(){
             gameloop = true 
             document.getElementById("canvas").style.border = "none";
             playMusic()
-            //Game()
-            win()
+            Game()
+           // win()
         }
         });
     }
@@ -119,6 +119,8 @@ function Info_button(){
         ctx.fillStyle = 'white'
         ctx.textAlign = "center";
         ctx.fillText("To move use W A S D", x_po+70, y_poz+100);
+        ctx.fillText("To use upgrade push SPACE", x_po+70, y_poz+140);
+
     }
     });
 }
