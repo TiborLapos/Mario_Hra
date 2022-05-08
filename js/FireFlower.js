@@ -1,7 +1,6 @@
 var pill = document.getElementById("pill");
 
 
-
 class Fireflower{
     constructor({position, velocity, text}){
         this.position = {
@@ -36,4 +35,18 @@ class Fireflower{
             this.velocity.y += gravity
         }
     }
+}
+
+function crete_boost_map1(){
+    return(fireFlowers = [
+        new Fireflower({
+            position:{
+            x: 6980,
+            y: 0
+            },
+            velocity:{
+                x:0,
+                y:0
+            }
+        })])
 }
