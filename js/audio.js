@@ -1,9 +1,13 @@
 let on_off = document.querySelector('.container .title');
 let audio = document.querySelector('.musicOn audio');
-//var vid = document.getElementById("audio")//.autoplay;
+var vid = document.getElementById("audio")//.autoplay;
 //vid.autoplay = false;
 
 
+
+if(!audio){
+  
+}
 
 function setHalfVolume() { 
     audio.volume = 0.2;
@@ -14,5 +18,5 @@ function stopMusic() {
    }
 
 function playMusic() {
-    //audio.play()
+    audio.play()
 }

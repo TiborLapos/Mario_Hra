@@ -20,9 +20,10 @@ class GenericObject {
         this.text = "Test"
     }
     draw(){
-        
-        //c.fillStyle = 'blue'
-        //c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        if(dev){
+            c.fillStyle = 'blue'
+            c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        }
         c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
     }
 
@@ -50,14 +51,17 @@ class Platfrom {
         this.text = text
     }
     draw(){
-        //c.fillStyle = 'white'
-        //c.fillRect(this.position.x, this.position.y, this.width, this.height)
-        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-        c.font = '8pt Arial';
-        if(this.text){
-            c.fillStyle = 'red'
-            c.fillText(this.text, this.position.x,this.position.y)
+        if(dev){
+            c.fillStyle = 'white'
+            c.fillRect(this.position.x, this.position.y, this.width, this.height)
+            if(this.text){
+                c.font = '8pt Arial';
+                c.fillStyle = 'red'
+                c.fillText(this.text, this.position.x,this.position.y)
+            }
         }
+        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+       
     }
     update(){
         this.draw()
@@ -80,7 +84,7 @@ function background2(){
         new GenericObject({
             x: image.width,
             y: image.height,
-            image:neo
+            image:background1
         })
     ])
 }

@@ -2,6 +2,7 @@ const gravity = 0.4
 var enemy = document.getElementById("enemy");
 var enemy_flip = document.getElementById("enemy-flip");
 var boss = document.getElementById("boss1");
+var boss2 = document.getElementById("boss2");
 
 class Goomba{
     constructor({position,width = 100,height = 80,boss = false, health = 1500, image = enemy, velocity,text, distance = {
@@ -29,26 +30,25 @@ class Goomba{
     }
     draw(){
 
-        //Hit Box
-        //c.fillStyle = 'red'
-        //c.fillStyle = 'rgba(255,0,0,.2)'
-        //c.fillRect(this.position.x, this.position.y, this.width,this.height)
+       
         c.drawImage(this.image,this.position.x, this.position.y,this.width,this.height)
-     
-        if(this.text){
-            if(this.boss){
-                c.font = '18pt Arial';
-                c.fillStyle = '#21fa00'
-                this.text = (this.health)
-                c.fillText(this.text, this.position.x + this.width / 2,this.position.y)
-            }else{
+        if(dev){
+             //Hit Box
+            //c.fillStyle = 'red'
+            //c.fillStyle = 'rgba(255,0,0,.2)'
+            //c.fillRect(this.position.x, this.position.y, this.width,this.height)
+            if(this.text){
                 c.font = '8pt Arial';
                 c.fillStyle = 'red'
                 c.fillText(this.text, this.position.x,this.position.y)
             }
-   
         }
-       
+        if(this.boss){
+            c.font = '18pt Arial';
+            c.fillStyle = '#21fa00'
+            this.text = (this.health)
+            c.fillText(this.text, this.position.x + this.width / 2,this.position.y)
+        }
     }
     update(){
         this.draw()

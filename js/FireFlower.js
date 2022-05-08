@@ -50,3 +50,18 @@ function crete_boost_map1(){
             }
         })])
 }
+
+
+function crete_boost_map2(){
+    return(fireFlowers = [
+        new Fireflower({
+            position:{
+            x: 3950,
+            y: 200
+            },
+            velocity:{
+                x:0,
+                y:0
+            }
+        })])
+}

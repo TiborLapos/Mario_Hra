@@ -41,8 +41,7 @@
                 image: blockTri,
                 block: true,
                 text: 'platform 2'
-            }),
-            /*
+            }), 
             new Platfrom({
                 x: 1390,
                 y: 80,
@@ -52,7 +51,6 @@
                 block: true,
                 text: 'platform 3'
             }),
-            */
             new Platfrom({
                 x: 2350,
                 y: floor_height,

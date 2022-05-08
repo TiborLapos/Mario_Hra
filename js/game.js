@@ -3,10 +3,14 @@ const canvas = document.getElementById('canvas');
 const c = canvas.getContext('2d');
 
 /* Inspiroval som cez youtube video :https://www.youtube.com/watch?v=4q2vvZn5aoo&t=4528s&ab_channel=ChrisCourses ale ked som uz pochopil ako vseetok funguje zacial som pridavat moje vlastne veci */
+var dev = false
+var music = true
 let isdead = false
 let score = 0
 let dead_count = 0
-var bos_dead = false
+var bos_dead = false         //Default is False
+var bos_dead_2 = false      //Default is False
+var map = 1                  //Default is 1
 
 var block = document.getElementById("block");
 var blockTri = document.getElementById("blockTri");
@@ -27,18 +31,20 @@ function Game(){
         let keys = key_status()         //Key - Status
 
         // Level 2
-        if (bos_dead === true){
+        if (map === 2){
             platforms  = loadmap_2()
             goombas = load_enemy2()
-            fireFlowers = crete_boost_map1()    //Need to be changed
+            fireFlowers = crete_boost_map2()    //Need to be changed
             genericObject =  background2()
+            map = 2
         }
         //Level 1
-        if(bos_dead === false){
+        if(map === 1){
             platforms  = loadmap_1()
             goombas = load_enemy()
             fireFlowers = crete_boost_map1()
             genericObject =  background()
+            map = 1
         }
 
 
@@ -82,6 +88,7 @@ function Game(){
                     particles.filter(particle => particle.fireball).forEach((particle, particleIndex) => {
                         if(particle.position.x + particle.radius >= goomba.position.x && particle.position.y + particle.radius >= goomba.position.y && particle.position.x - particle.radius <= goomba.position.x + goomba.width && particle.position.y - particle.radius <= goomba.position.y + goomba.height){
                             // Create Effekt
+                            goomba.boss = true
                             if(goomba.health <= 0){
                                 console.log("Boss dead")
                                 for(let i = 0; i < 150; i++){
@@ -99,6 +106,9 @@ function Game(){
                                 } 
                                 goomba.boss = false
                                 bos_dead = true
+                                if(map === 2){
+                                    bos_dead_2 = true
+                                }
                                 goombas.splice(index, 1)
                             }
                             if(boss){
@@ -159,6 +169,10 @@ function Game(){
                             dead()
                         }
                     }else if(player.position.x + player.width >= goomba.position.x && player.position.y + player.height >= goomba.position.y && player.position.x <= goomba.position.x + goomba.width ){
+                        if(goomba.boss){
+                            goombas.length = 0
+                            dead() 
+                        }
                         if(player.powerUps.fireFlowers !=  true){
                             if(player.heal <= 25){
                                 goombas.length = 0
@@ -181,6 +195,7 @@ function Game(){
                                 setTimeout(()=>{
                                     goombas.splice(index, 1)
                                 }, 0)
+                               
                                 //console.log("-25 heal")   //Debug
                             }
                         }else{
@@ -409,10 +424,17 @@ function Game(){
                 })
 
                 // Epizoda Vyhra
-                if(scrollOffset > 4000 && bos_dead === true){
-                    console.log("Winner")
+                if(bos_dead === true && map  === 1 && scrollOffset > 4000  ){
+                    console.log("Winner 1")
+                    map = 2
                     win()
                 }
+                // Epizoda Vyhra
+                if((bos_dead_2 === true && bos_dead === true ) && map  === 2 && scrollOffset > 3500  ){
+                    console.log("Winner 2")
+                    win()
+                }
+
                 // Epizoda Prehra
                 if(player.position.y > canvas.height){
                     console.log("You louse")
@@ -501,6 +523,7 @@ function menu(){
     if(gameloop != true){
         Start_button()
         Volume_button()
+        Volume_button_play()
         Info_button()
     }
 }

@@ -47,7 +47,9 @@ function Start_button(){
             show = false
             gameloop = true 
             document.getElementById("canvas").style.border = "none";
-            playMusic()
+            if(music === true){
+                playMusic()
+            }
             Game()
            // win()
         }
@@ -82,7 +84,42 @@ function Volume_button(){
     // Check whether point is inside circle
     if (ctx.isPointInPath(button2, event.offsetX, event.offsetY) && show !== false) {
         console.log("Mute")
+        music = false
         stopMusic()
+    }
+    });
+}
+
+function Volume_button_play(){
+    var x_po = 420
+    var y_poz = 400
+    // Create circle
+    const ctx = canvas.getContext('2d');
+    const button2 = new Path2D();
+    button2.rect(x_po, y_poz, 150, 50);
+    ctx.fillStyle = 'black';
+    ctx.lineWidth = 4;  
+    if (isdead === true){
+        ctx.strokeStyle = 'red';
+    }else{
+        ctx.strokeStyle = '#1F51FF';
+    }
+    ctx.strokeRect(x_po, y_poz, 150, 50);  
+    ctx.fill(button2);
+   
+    ctx.font = '22pt Arial';
+    ctx.fillStyle = 'white'
+    ctx.textAlign = "center";
+    ctx.fillText("./music_on", x_po+75, y_poz+40);
+    ctx.lineWidth = 7;  
+
+    // Listen for mouse moves
+    canvas.addEventListener('click', function(event) {
+    // Check whether point is inside circle
+    if (ctx.isPointInPath(button2, event.offsetX, event.offsetY) && show !== false) {
+        console.log("Play Music")
+        music = true
+        playMusic()
     }
     });
 }
@@ -159,7 +196,9 @@ function next_level(){
             show = false
             gameloop = true 
             document.getElementById("canvas").style.border = "none";
-            playMusic()
+            if(music === true){
+                playMusic()
+            }
             Game()
         }
         });

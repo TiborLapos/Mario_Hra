@@ -21,13 +21,15 @@ class Player{
             fireFlowers:false
         }
         this.opacity = 1
-        this.heal = 350
+        this.heal = 50
         this.text = this.healt
     }
     draw(){
-        //Hit Box
-        c.fillStyle = 'rgba(255,0,0,.2)'
-        c.fillRect(this.position.x, this.position.y, this.width,this.height)
+        if(dev){
+            //Hit Box
+            c.fillStyle = 'rgba(255,0,0,.2)'
+            c.fillRect(this.position.x, this.position.y, this.width,this.height)
+        }
         //Heal
         this.text = (this.heal+" "+a[0])
         c.font = '12pt Arial';
